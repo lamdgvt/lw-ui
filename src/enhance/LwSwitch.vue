@@ -3,7 +3,7 @@
     <div class="lw_switch_box">
       <div :class="initBackgroundColor" @click="buttonClickEvent" :style="initBackground">
         <span class="lw_switch_close" v-if="!state">{{ closeValue }}</span>
-        <span class="lw_switch_open" v-if="state">{{ openValue }}</span>
+        <span class="lw_switch_open" v-else>{{ openValue }}</span>
         <button :style="initButton" class="lw_switch_button"></button>
       </div>
     </div>

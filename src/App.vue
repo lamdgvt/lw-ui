@@ -5,8 +5,11 @@
         <lw-button>确认</lw-button>
       </el-col>
       <el-col :span="2">
-        <lw-switch :value="false" :openValue="'oepn'" :closeValue="'close'">开关</lw-switch>
+        <lw-switch :value="false"></lw-switch>
       </el-col>
+    </el-row>
+    <el-row>
+      <lw-calendar></lw-calendar>
     </el-row>
   </div>
 </template>
@@ -15,27 +18,27 @@
 import { Row, Col } from "element-ui";
 import LwButton from "./enhance/LwButton";
 import LwSwitch from "./enhance/LwSwitch";
+import LwCalendar from "./enhance/LwCalendar";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     ElRow: Row,
     ElCol: Col,
     LwButton,
-    LwSwitch
+    LwSwitch,
+    LwCalendar
   },
-  methods: {
-    
-  }
-}
+  methods: {}
+};
 </script>
-
-<style>
+<style lang="less" scoped>
+@import "./skins/color.less";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: @FontColor;
   margin-top: 60px;
 }
 </style>
