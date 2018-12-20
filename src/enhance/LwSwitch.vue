@@ -1,9 +1,10 @@
 <template>
   <div class="lw_switch">
     <div class="lw_switch_box">
-      <div :class="initBackgroundColor" @click="buttonClickEvent" ref="background">
-        <span class="lw_switch_span">{{ text }}</span>
-        <button :style="initStyle" class="lw_switch_button" ref="button"></button>
+      <div :class="initBackgroundColor" @click="buttonClickEvent" :style="initBackground">
+        <span class="lw_switch_close" v-if="!state">{{ closeValue }}</span>
+        <span class="lw_switch_open" v-if="state">{{ openValue }}</span>
+        <button :style="initButton" class="lw_switch_button"></button>
       </div>
     </div>
   </div>
@@ -31,18 +32,36 @@ export default {
     return {
       state: this.value,
       open: 4,
-      close: 23,
+      close: 13,
       top: 3,
-      text: this.value ? this.openValue : this.closeValue
+      textSize: this.initTextSize(),
+      padding: {
+        top: 0,
+        right: 30,
+        bottom: 0,
+        left: 10
+      }
     };
   },
   methods: {
     buttonClickEvent: function() {
       this.state = !this.state;
-      let button = this.$refs.button;
-      let px = this.state ? this.open + "px" : this.close + "px";
-      button.style.right = px;
       this.$emit("change", event);
+    },
+    initTextSize: function() {
+      let { width: openWidth, height: openHeight } = getTextSize(
+        this.openValue,
+        "font-size: 12px;"
+      );
+
+      let { width: closeWidth, height: closeHeight } = getTextSize(
+        this.closeValue,
+        "font-size: 12px;"
+      );
+
+      let width = Math.max(openWidth, closeWidth);
+      let height = Math.max(openHeight, closeHeight);
+      return { width, height };
     }
   },
   computed: {
@@ -52,14 +71,17 @@ export default {
         (this.state ? "lw_background_open" : "lw_background_close")
       );
     },
-    initStyle: function() {
-      let { width: openValue } = getTextSize(this.openValue);
-      let { width: closeValue } = getTextSize(this.closeValue);
-      let width = Math.max(openValue, closeValue);
+    initBackground: function() {
+      let { top, right, bottom, left } = this.padding;
+      let { width } = this.textSize;
+      width += right + left;
 
-      return `right:${this.state ? this.open : this.close}px;top:${
-        this.top
-      }px;`;
+      return `padding: ${top}px ${right}px ${bottom}px ${left}px; width: ${width}px`;
+    },
+    initButton: function() {
+      let { width } = this.textSize;
+      let px = this.state ? this.open : this.close + width;
+      return `right:${px}px;top:${this.top}px;`;
     }
   }
 };
@@ -77,13 +99,12 @@ export default {
     box-sizing: border-box;
   }
   .lw_switch_background {
-    padding: 0px 30px 0 10px;
     transition: 0.3s;
+    box-sizing: border-box;
     white-space: nowrap;
-    display: inline-block;
     position: relative;
     height: 29px;
-    line-height: 29px;
+    line-height: 28px;
     border-radius: 100px;
   }
   .lw_background_open {
@@ -92,8 +113,23 @@ export default {
   .lw_background_close {
     background-color: @Gray;
   }
-  .lw_switch_span {
+  .lw_switch_close {
+    right: 11px;
     font-size: 12px;
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: @White;
+  }
+  .lw_switch_open {
+    font-size: 12px;
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     color: @White;
   }
   .lw_switch_button {
