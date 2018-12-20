@@ -67,6 +67,10 @@ export default {
     outline: none;
     border: 1px solid transparent;
     color: @White;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   .default {
     background-color: @Blue;
