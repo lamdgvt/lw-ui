@@ -29,7 +29,7 @@ export default {
         "December"
       ],
       weekStr: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      renderType: "month"
+      renderType: "date"
     };
   },
   computed: {},
@@ -104,7 +104,13 @@ export default {
       let body;
       switch (type) {
         case "year":
-          "";
+          body = [
+            createElement(
+              "div",
+              { class: "lw_body_month" },
+              this.createYearElement(createElement)
+            )
+          ];
           break;
         case "month":
           body = [
@@ -223,11 +229,6 @@ export default {
           })();
 
           cols.push(createElement("div", { class: className }, current));
-          // cols.push(
-          //   createElement("div", {}, [
-          //     createElement("span", { class: className }, current)
-          //   ])
-          // );
         }
 
         rows.push(createElement("div", { class: "lw_body_row_date" }, cols));
@@ -265,6 +266,28 @@ export default {
 
       return rows;
     },
+    createYearElement: function(createElement) {
+      let year = this.renderDate.getFullYear();
+      let floor = Math.floor(year / 10) * 10;
+      let rows = [];
+      let number = -1;
+
+      for (let i = 0; i < 3; i++) {
+        let cols = [];
+        for (let r = 0; r < 4; r++) {
+          cols.push(
+            createElement("div", { class: "lw_body_col_year" }, floor + number)
+          );
+          number++;
+        }
+
+        rows.push(createElement("div", { class: "lw_body_row_year" }, cols));
+      }
+
+      rows.push(this.doneButtonElement(createElement));
+
+      return rows;
+    },
     selectDateEvent: function(e) {
       e.stopPropagation();
       let target = e.target;
@@ -272,11 +295,9 @@ export default {
       let isCol = className => {
         return target.className.indexOf(className) !== -1;
       };
-
+      let time = new Date(this.renderDate);
       let dateSelect = () => {
         if (!isCol("lw_body_col_date")) return;
-
-        let time = new Date(this.renderDate);
 
         let date = Number(target.innerText);
         if (!date || isNaN(date)) return;
@@ -302,10 +323,10 @@ export default {
         time.setDate(date);
         this.renderDate = time;
         this.selectDate = time;
+        this.$emit("value", this.selectDate);
       };
       let monthSelect = () => {
         if (!isCol("lw_body_col_month")) return;
-        let time = new Date(this.renderDate);
 
         let n = (() => {
           for (let i = 0; i < this.monthStr.length; i++) {
@@ -320,7 +341,20 @@ export default {
         this.renderDate = time;
       };
 
+      let yearSelect = () => {
+        if (!isCol("lw_body_col_year")) return;
+        let date = Number(target.innerText);
+        if (!date || isNaN(date)) return;
+        time.setFullYear(date);
+
+        this.renderType = "month";
+        this.renderDate = time;
+      };
+
       switch (this.renderType) {
+        case "year":
+          yearSelect();
+          break;
         case "month":
           monthSelect();
           break;
@@ -333,20 +367,46 @@ export default {
       let target = e.target;
       let arrow = target.getAttribute("data-arrow");
       let title = target.getAttribute("data-title");
+
       let arrowEvent = () => {
         let n = Number(arrow);
         if (isNaN(n)) return;
         let time = new Date(this.renderDate);
-        let month = time.getMonth();
 
-        if ((month === 11 && n === 1) || (month === 0 && n === -1)) {
-          time.setFullYear(time.getFullYear() + n);
-          month === 11 && time.setMonth(0);
-          month === 0 && time.setMonth(11);
-        } else time.setMonth(time.getMonth() + n);
+        let dateToggle = () => {
+          let month = time.getMonth();
 
-        this.renderDate = time;
+          if ((month === 11 && n === 1) || (month === 0 && n === -1)) {
+            time.setFullYear(time.getFullYear() + n);
+            month === 11 && time.setMonth(0);
+            month === 0 && time.setMonth(11);
+          } else time.setMonth(time.getMonth() + n);
+
+          this.renderDate = time;
+        };
+        let monthToggle = () => {
+          let year = time.getFullYear();
+          time.setFullYear(year + n);
+          this.renderDate = time;
+        };
+        let yearToggle = () => {
+          let year = time.getFullYear();
+          time.setFullYear(year + n * 10);
+          this.renderDate = time;
+        };
+
+        switch (this.renderType) {
+          case "year":
+            yearToggle();
+            break;
+          case "month":
+            monthToggle();
+            break;
+          default:
+            dateToggle();
+        }
       };
+
       let titleEvent = () => {
         switch (this.renderType) {
           case "month":
@@ -370,7 +430,13 @@ export default {
     monthHeaderElement: function() {
       return this.renderDate.getFullYear();
     },
-    yearHeaderElement: function() {},
+    yearHeaderElement: function() {
+      let year = this.renderDate.getFullYear();
+      let ceil = Math.ceil(year / 10) * 10;
+      !(year % 10) && (ceil += 10);
+      let floor = Math.floor(year / 10) * 10 - 1;
+      return floor + " - " + ceil;
+    },
     doneButtonElement: function(createElement) {
       return createElement(
         "div",
@@ -393,21 +459,10 @@ export default {
     }
   },
   render: function(createElement) {
-    return createElement(
-      // {String | Object | Function}
-      // 一个 HTML 标签字符串，组件选项对象，或者
-      // 解析上述任何一种的一个 async 异步函数。必需参数。
-      "div",
-
-      // {Object}
-      // 一个包含模板相关属性的数据对象
-      // 你可以在 template 中使用这些特性。可选参数。
-      { class: "lw_calendar_box" },
-      // {String | Array}
-      // 子虚拟节点 (VNodes)，由 `createElement()` 构建而成，
-      // 也可以使用字符串来生成“文本虚拟节点”。可选参数。
-      [this.headerLayout(createElement), this.bodyLayout(createElement)]
-    );
+    return createElement("div", { class: "lw_calendar_box" }, [
+      this.headerLayout(createElement),
+      this.bodyLayout(createElement)
+    ]);
   }
 };
 </script>
@@ -418,6 +473,7 @@ export default {
   width: 320px;
   padding: 15px;
   box-sizing: border-box;
+  border-radius: 2px;
   border: 1px solid @BorderColor;
   letter-spacing: 0.2px;
   -webkit-user-select: none;
@@ -494,13 +550,15 @@ export default {
   .lw_date_gray {
     color: @Gray;
   }
-  .lw_body_row_month {
+  .lw_body_row_month,
+  .lw_body_row_year {
     height: 65px;
   }
   .lw_body_done {
     height: 40px;
   }
-  .lw_body_col_month {
+  .lw_body_col_month,
+  .lw_body_col_year {
     float: left;
     width: 50px;
     height: 50px;
@@ -510,7 +568,8 @@ export default {
     cursor: pointer;
     border-radius: 50%;
   }
-  .lw_body_col_month:hover {
+  .lw_body_col_month:hover,
+  .lw_body_col_year:hover {
     background: @WhiteActive;
   }
   .lw_body_done {
