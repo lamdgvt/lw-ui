@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "element-ui": "^2.4.11",
+    "iview": "^3.2.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "vue": "^2.5.17",
@@ -22,6 +23,7 @@
     "babel-plugin-component": "^1.1.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "iview-loader": "^1.2.2",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
