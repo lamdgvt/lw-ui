@@ -15,4 +15,10 @@ let getTextSize = function (text, style) {
     };
 }
 
-export { getTextSize }
+let zIndex = 100;
+
+let getZIndex = function () {
+    return zIndex++;
+}
+
+export { getTextSize, getZIndex }
