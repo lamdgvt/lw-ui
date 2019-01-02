@@ -1,42 +1,64 @@
 <template>
   <div id="app">
     <el-row>
-      <el-col :span="2">
-        <lw-button v-on:click="clickEvent">确认</lw-button>
-      </el-col>
-      <el-col :span="2">
-        <lw-switch :value="false" @change="changeEvent"></lw-switch>
+      <el-col>
+        <!-- <Button type="primary" @click="modal1 = true">Display dialog box</Button>
+        <Modal
+          v-model="modal1"
+          title="Common Modal dialog box title"
+          @on-ok="ok"
+          @on-cancel="cancel"
+        >
+          <p>Content of dialog</p>
+          <p>Content of dialog</p>
+          <p>Content of dialog</p>
+        </Modal> -->
       </el-col>
     </el-row>
     <el-row>
-      <lw-calendar></lw-calendar>
+      <lw-modal>
+        <p>test1</p>
+        <p>test2 label</p>
+      </lw-modal>
     </el-row>
   </div>
 </template>
 
 <script>
-import { Row, Col } from "element-ui";
-import LwButton from "./enhance/LwButton";
-import LwSwitch from "./enhance/LwSwitch";
-import LwCalendar from "./enhance/LwCalendar";
-import LwPopup from "./enhance/LwPopup.js";
-import message from "./components/message/index.js";
+import { Row, Col, Button } from "element-ui";
+import Modal from "./components/modal/modal";
+import LwModal from "./enhance/LwModal";
+// import LwButton from "./enhance/LwButton";
+// import LwSwitch from "./enhance/LwSwitch";
+// import LwCalendar from "./enhance/LwCalendar";
+// import LwPopup from "./enhance/LwPopup.js";
 
 export default {
   name: "app",
   components: {
     ElRow: Row,
     ElCol: Col,
-    LwButton,
-    LwSwitch,
-    LwCalendar
+    Button,
+    LwModal,
+    Modal
+  },
+  data() {
+    return {
+      modal1: false
+    };
   },
   methods: {
     clickEvent: function() {
-      let popup = LwPopup({ text: "这是一条消息", type: "error" });
+      // let popup = LwPopup({ text: "这是一条消息", type: "error" });
     },
     changeEvent: function() {
-      message.info("This is a info tip");
+      // message.info("This is a info tip");
+    },
+    ok() {
+      this.$Message.info("Clicked ok");
+    },
+    cancel() {
+      this.$Message.info("Clicked cancel");
     }
   }
 };
