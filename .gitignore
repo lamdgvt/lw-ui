@@ -19,3 +19,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+/src/components
+/src/directives
+/src/locale
+/src/mixins
+/src/styles
+/src/utils

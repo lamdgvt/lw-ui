@@ -1,16 +1,15 @@
 <template>
   <div v-transfer-dom :data-transfer="transfer">
-    <div class="lw_shade" @click="shadeEvent"></div>
-    <div class="lw_window">
+    <div :class="hiddenClasses('lw_shade')" @click="shadeEvent"></div>
+    <div :class="hiddenClasses('lw_window')">
       <div class="lw_box" style="width:500px">
         <div class="lw_header">
-          <i class="iconfont icon-guanbi close"></i>
+          <i class="iconfont icon-guanbi close" @click="close"></i>
           <span class="lw_header_title">普通的Modal对话框标题</span>
         </div>
         <div class="lw_content"></div>
         <div class="lw_footer"></div>
       </div>
-      <!-- <slot></slot> -->
     </div>
   </div>
 </template>
@@ -19,15 +18,42 @@
 import { TransferDom } from "../public.ts";
 export default {
   name: "LwModal",
+  model: {
+    prop: "value",
+    event: "change"
+  },
   props: {
+    value: {
+      type: Boolean,
+      default: false
+    },
     transfer: {
       type: Boolean,
       default: true
     }
   },
+  data: function() {
+    return {
+      visible: this.value
+    };
+  },
+  computed: {},
   methods: {
-    shadeEvent: function() {
-      console.log(123);
+    hiddenClasses: function(cls) {
+      return cls + (this.visible ? "" : " lw_hidden");
+    },
+    shadeEvent: function() {},
+    close: function() {
+      this.visible = false;
+      this.$emit("on-close");
+    }
+  },
+  watch: {
+    value: function(val) {
+      this.visible = val;
+    },
+    visible: function(val) {
+      
     }
   },
   directives: { TransferDom }
@@ -78,5 +104,8 @@ export default {
 .iconfont.close {
   cursor: pointer;
   float: right;
+}
+.lw_hidden {
+  display: none;
 }
 </style>

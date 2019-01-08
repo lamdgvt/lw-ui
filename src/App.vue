@@ -16,7 +16,8 @@
       </el-col>
     </el-row>
     <el-row>
-      <lw-modal>
+      <Button type="primary" @click="modal1 = true">Display dialog box</Button>
+      <lw-modal v-model="modal1">
         <p>test1</p>
         <p>test2 label</p>
       </lw-modal>
@@ -54,12 +55,8 @@ export default {
     changeEvent: function() {
       // message.info("This is a info tip");
     },
-    ok() {
-      this.$Message.info("Clicked ok");
-    },
-    cancel() {
-      this.$Message.info("Clicked cancel");
-    }
+    ok() {},
+    cancel() {}
   }
 };
 </script>
