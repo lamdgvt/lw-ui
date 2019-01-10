@@ -2,50 +2,41 @@
   <div id="app">
     <el-row>
       <el-col>
-        <!-- <Button type="primary" @click="modal1 = true">Display dialog box</Button>
-        <Modal
-          v-model="modal1"
-          title="Common Modal dialog box title"
-          @on-ok="ok"
-          @on-cancel="cancel"
-        >
-          <p>Content of dialog</p>
-          <p>Content of dialog</p>
-          <p>Content of dialog</p>
-        </Modal>-->
+        <lw-radio :size="16" :checked="1" disabled></lw-radio>
       </el-col>
     </el-row>
     <el-row>
-      <Button type="primary" @click="modal1 = !modal1">Display dialog box</Button>
-      <lw-modal :value="modal1" @on-visible-change="changeEvent">
+      <!-- <Button type="primary" @click="modal1 = !modal1">Display dialog box</Button>
+      <lw-modal :value="modal1" @on-visible-change="changeEvent" :shade="false">
         <span slot="title">普通的Modal对话框标题</span>
         <div slot="content">
           <el-row>
             <el-col></el-col>
           </el-row>
         </div>
-      </lw-modal>
+      </lw-modal>-->
     </el-row>
   </div>
 </template>
 
 <script>
-import { Row, Col, Button } from "element-ui";
-import Modal from "./components/modal/modal";
-import LwModal from "./enhance/LwModal";
+import { Row, Col } from "element-ui";
+// import LwModal from "./enhance/LwModal";
 // import LwButton from "./enhance/LwButton";
 // import LwSwitch from "./enhance/LwSwitch";
 // import LwCalendar from "./enhance/LwCalendar";
-// import LwPopup from "./enhance/LwPopup.js";
+// import LwIcon from "./enhance/LwIcon";
+import LwRadio from "./enhance/LwRadio";
 
 export default {
   name: "app",
   components: {
     ElRow: Row,
     ElCol: Col,
-    Button,
-    LwModal,
-    Modal
+    // LwIcon,
+    // Button,
+    // LwModal,
+    LwRadio
   },
   data() {
     return {
