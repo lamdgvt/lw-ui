@@ -1,10 +1,10 @@
 <template>
   <div v-transfer-dom :data-transfer="transfer">
-    <div :class="hiddenClasses('lw_shade')" @click="close"></div>
+    <div :class="hiddenClasses('lw_shade')" @click="close" v-if="shade"></div>
     <div :class="hiddenClasses('lw_window')">
       <div class="lw_box" :style="boxstyless" ref="box">
         <div class="lw_header" :style="(move ? {cursor: 'move'} : {})">
-          <i class="iconfont icon-guanbi close" @click="close"></i>
+          <lw-icon :type="'guanbi'" :class="'close'" :size="16" @click="close"></lw-icon>
           <span class="lw_header_title">
             <slot name="title"></slot>
           </span>
@@ -21,9 +21,13 @@
 </template>
 
 <script>
+import LwIcon from "./LwIcon";
 import { TransferDom } from "../public.ts";
 export default {
   name: "LwModal",
+  components: {
+    LwIcon
+  },
   props: {
     value: {
       type: Boolean,
@@ -38,6 +42,10 @@ export default {
       default: 400
     },
     move: {
+      type: Boolean,
+      default: true
+    },
+    shade: {
       type: Boolean,
       default: true
     }
@@ -163,6 +171,7 @@ export default {
 .lw_box {
   min-height: 200px;
   position: absolute;
+  border: 1px solid #dadee0;
   top: 100px;
   background-color: @White;
   box-sizing: border-box;
