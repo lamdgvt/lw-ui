@@ -12,14 +12,18 @@
           <p>Content of dialog</p>
           <p>Content of dialog</p>
           <p>Content of dialog</p>
-        </Modal> -->
+        </Modal>-->
       </el-col>
     </el-row>
     <el-row>
-      <Button type="primary" @click="modal1 = true">Display dialog box</Button>
-      <lw-modal v-model="modal1">
-        <p>test1</p>
-        <p>test2 label</p>
+      <Button type="primary" @click="modal1 = !modal1">Display dialog box</Button>
+      <lw-modal :value="modal1" @on-visible-change="changeEvent">
+        <span slot="title">普通的Modal对话框标题</span>
+        <div slot="content">
+          <el-row>
+            <el-col></el-col>
+          </el-row>
+        </div>
       </lw-modal>
     </el-row>
   </div>
@@ -52,8 +56,8 @@ export default {
     clickEvent: function() {
       // let popup = LwPopup({ text: "这是一条消息", type: "error" });
     },
-    changeEvent: function() {
-      // message.info("This is a info tip");
+    changeEvent: function(val) {
+      this.modal1 = val;
     },
     ok() {},
     cancel() {}
