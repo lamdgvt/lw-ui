@@ -36,6 +36,11 @@ export default {
     dblclickEvent: function() {
       this.$emit("dblclick", event);
     }
+  },
+  watch: {
+    type(val) {
+      this.icon = val;
+    }
   }
 };
 </script>

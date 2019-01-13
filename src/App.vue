@@ -6,23 +6,23 @@
       </el-col>
     </el-row>
     <el-row>
-      <!-- <Button type="primary" @click="modal1 = !modal1">Display dialog box</Button>
-      <lw-modal :value="modal1" @on-visible-change="changeEvent" :shade="false">
+      <lw-button @click="modal1 = !modal1">Display dialog box</lw-button>
+      <lw-modal :value="modal1" @on-visible-change="changeEvent" screen>
         <span slot="title">普通的Modal对话框标题</span>
         <div slot="content">
           <el-row>
             <el-col></el-col>
           </el-row>
         </div>
-      </lw-modal>-->
+      </lw-modal>
     </el-row>
   </div>
 </template>
 
 <script>
 import { Row, Col } from "element-ui";
-// import LwModal from "./enhance/LwModal";
-// import LwButton from "./enhance/LwButton";
+import LwModal from "./enhance/LwModal";
+import LwButton from "./enhance/LwButton";
 // import LwSwitch from "./enhance/LwSwitch";
 // import LwCalendar from "./enhance/LwCalendar";
 // import LwIcon from "./enhance/LwIcon";
@@ -35,7 +35,8 @@ export default {
     ElCol: Col,
     // LwIcon,
     // Button,
-    // LwModal,
+    LwModal,
+    LwButton,
     LwRadio
   },
   data() {

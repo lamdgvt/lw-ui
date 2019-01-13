@@ -1,10 +1,12 @@
 <template>
   <div v-transfer-dom :data-transfer="transfer">
     <div :class="hiddenClasses('lw_shade')" @click="close" v-if="shade"></div>
-    <div :class="hiddenClasses('lw_window')">
+    <div :class="hiddenClasses('lw_window')" :style="getZIndex">
       <div class="lw_box" :style="boxstyless" ref="box">
-        <div class="lw_header" :style="(move ? {cursor: 'move'} : {})">
+        <div class="lw_header" :style="cursorState">
           <lw-icon :type="'guanbi'" :class="'close'" :size="16" @click="close"></lw-icon>
+
+          <lw-icon :type="iconState" :class="'screen'" :size="21" v-show="screen" @click="toggle"></lw-icon>
           <span class="lw_header_title">
             <slot name="title"></slot>
           </span>
@@ -22,7 +24,7 @@
 
 <script>
 import LwIcon from "./LwIcon";
-import { TransferDom } from "../public.ts";
+import { TransferDom, getZIndex } from "../public.ts";
 export default {
   name: "LwModal",
   components: {
@@ -47,7 +49,15 @@ export default {
     },
     shade: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    screen: {
+      type: Boolean,
+      default: false
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false
     }
   },
   data: function() {
@@ -57,19 +67,41 @@ export default {
       windowHeight: innerHeight,
       top: 0,
       left: 0,
-      center: true
+      center: true,
+      screenState: this.fullscreen
+      /**
+       * screenState  1为开启全屏, -1为关闭全屏
+       * 如为Boolean 值, 全屏以 fullscreen 为准
+       */
     };
   },
   computed: {
+    iconState: function() {
+      if (this.screenState) return "quxiaoquanping_o";
+      return "quanping_o";
+    },
     boxstyless: function() {
+      let screenState = this.screenState;
+      if (screenState) return { width: "100%", height: "100%" };
+
       return {
         width: this.width + "px",
         left: this.left + "px",
         top: this.top + "px"
       };
+    },
+    cursorState() {
+      if (this.move && !this.screenState) return { cursor: "move" };
+      return {};
+    },
+    getZIndex: function() {
+      return { zIndex: getZIndex() };
     }
   },
   methods: {
+    toggle() {
+      this.screenState = !this.screenState;
+    },
     hiddenClasses: function(cls) {
       return cls + (this.visible ? "" : " lw_hidden");
     },
@@ -100,13 +132,13 @@ export default {
 
       box.addEventListener("mousedown", function(e) {
         mouseDownEvent = true;
-        global.center = false;
         xy.clientX = e.clientX;
         xy.clientY = e.clientY;
       });
 
       document.addEventListener("mousemove", function(e) {
-        if (mouseDownEvent) {
+        if (mouseDownEvent && !global.screenState) {
+          global.center = false;
           let currentX = e.clientX;
           let currentY = e.clientY;
           global.top += currentY - xy.clientY;
@@ -172,7 +204,6 @@ export default {
   min-height: 200px;
   position: absolute;
   border: 1px solid #dadee0;
-  top: 100px;
   background-color: @White;
   box-sizing: border-box;
   border-radius: 3px;
@@ -190,10 +221,17 @@ export default {
   font-size: 17px;
   font-weight: bold;
 }
-.iconfont.close {
+.close,
+.screen {
   cursor: pointer;
   float: right;
+  margin-right: 5px;
 }
+.screen {
+  position: relative;
+  top: -3px;
+}
+
 .lw_hidden {
   display: none;
 }
