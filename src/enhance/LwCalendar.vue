@@ -323,7 +323,8 @@ export default {
         time.setDate(date);
         this.renderDate = time;
         this.selectDate = time;
-        this.$emit("value", this.selectDate);
+        this.$emit("input", this.selectDate);
+        // this.$emit("value", this.selectDate);
       };
       let monthSelect = () => {
         if (!isCol("lw_body_col_month")) return;
