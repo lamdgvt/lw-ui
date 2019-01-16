@@ -52,7 +52,7 @@ export default {
 <style lang="less" scoped>
 @import "../skins/color.less";
 .lw_button {
-  padding: 2px;
+  display: inline-block;
   button,
   a {
     padding: 3px 12px;
