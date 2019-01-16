@@ -6,7 +6,9 @@
       :class="state? 'lw_radio_checked': ''"
       :disabled="disabled"
     ></button>
-    <input type="radio" :style="inputStyless" :checked="state" id="test" :disabled="disabled">
+    <!-- :style="inputStyless" -->
+    <input type="radio" :disabled="disabled" :name="name" @change="change" ref="input">
+    {{ state }}
     <slot></slot>
   </label>
 </template>
@@ -14,7 +16,14 @@
 <script>
 export default {
   name: "LwRadio",
+  model: {
+    prop: "checked"
+  },
   props: {
+    name: {
+      name: String,
+      default: ""
+    },
     checked: {
       checked: Boolean,
       default: false
@@ -53,10 +62,18 @@ export default {
   },
   methods: {
     clickEvent: function() {
-      this.state = true;
+      this.$refs.input.click();
+    },
+    change: function(e) {
+      let checked = e.target.checked;
+      this.state = checked;
     }
   },
-  watch: {}
+  watch: {
+    state(val) {
+      this.$emit("input", val);
+    }
+  }
 };
 </script>
 
@@ -70,6 +87,7 @@ export default {
     cursor: pointer;
     box-shadow: none;
     outline: none;
+    vertical-align: middle;
   }
   > button.lw_radio_checked {
     border-width: 4px;
