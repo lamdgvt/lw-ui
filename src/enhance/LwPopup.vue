@@ -13,7 +13,10 @@
 import { directive as clickOutside } from "v-click-outside-x";
 export default {
   name: "LwPopup",
-  props: {},
+  props: {
+    autoWidth: Boolean,
+    visible: Boolean
+  },
   directives: { clickOutside },
   methods: {
     clickEvent: function() {
@@ -28,6 +31,7 @@ export default {
       let top = this.offsetHeight + "px";
       let left = "0px";
       let width = this.offsetWidth + "px";
+      if (this.autoWidth) width = "auto";
       return {
         top,
         left,
@@ -37,12 +41,16 @@ export default {
   },
   data: function() {
     return {
-      show: false,
+      show: this.visible,
       offsetHeight: 0,
       offsetWidth: 0
     };
   },
-  watch: {},
+  watch: {
+    visible(val) {
+      this.show = val;
+    },
+  },
   mounted: function() {
     let slot = this.$refs.slot;
     this.offsetHeight = slot.offsetHeight;

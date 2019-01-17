@@ -8,7 +8,7 @@ export default {
   props: {
     type: String,
     size: {
-      size: [Number, String],
+      type: [Number, String],
       default: 14
     },
     color: String

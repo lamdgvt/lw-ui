@@ -48,31 +48,31 @@ export default {
     remove: Boolean,
     iconSize: Number,
     disabled: {
-      disabled: Boolean,
+      type: Boolean,
       default: false
     },
     readonly: {
-      disabled: Boolean,
+      type: Boolean,
       default: false
     },
     maxlength: Number,
     icon: {
-      icon: String,
+      type: String,
       default: ""
     },
     height: {
-      height: [Number, String],
+      type: [Number, String],
       default: 30
     },
     width: {
-      height: [Number, String],
+      type: [Number, String],
       default: 188
     }
   },
   computed: {
     inputStyle: function() {
       let height = parseFloat(this.height) + "px";
-      let paddingRight = this.icon ? "30px" : "5px";
+      let paddingRight = this.icon ? "30px" : "10px";
       let width = parseFloat(this.width) + "px";
       return {
         height,
@@ -89,6 +89,9 @@ export default {
     };
   },
   watch: {
+    value(val) {
+      this.currentValue = val;
+    },
     currentValue(val) {
       this.$emit("input", val);
     },
@@ -149,7 +152,7 @@ export default {
   border-radius: 2px;
   border: 1px solid @BorderColor;
   outline: none;
-  padding-left: 5px;
+  padding-left: 10px;
   box-sizing: border-box;
 }
 .lw_input_icon {

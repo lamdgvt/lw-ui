@@ -8,10 +8,12 @@
     </el-row>
     <el-row>
       <el-col :push="4" :span="5">
-        <lw-popup>
+        <lw-datepicker :value="'2020-03-18'"></lw-datepicker>
+
+        <!-- <lw-popup>
           <lw-button>Display dialog box</lw-button>
           <div slot="content"></div>
-        </lw-popup>
+        </lw-popup>-->
       </el-col>
 
       <!--
@@ -31,14 +33,14 @@
 <script>
 import { Row, Col } from "element-ui";
 // import LwModal from "./enhance/LwModal";
-import LwButton from "./enhance/LwButton";
+// import LwButton from "./enhance/LwButton";
 // import LwSwitch from "./enhance/LwSwitch";
 // import LwCalendar from "./enhance/LwCalendar";
 // import LwIcon from "./enhance/LwIcon";
 // import LwRadio from "./enhance/LwRadio";
 // import LwInput from "./enhance/LwInput";
-import LwPopup from "./enhance/LwPopup";
-// import IRadio from "./components/radio/radio";
+// import LwPopup from "./enhance/LwPopup";
+import LwDatepicker from "./enhance/LwDatepicker";
 
 export default {
   name: "app",
@@ -48,12 +50,13 @@ export default {
     // LwIcon,
     // Button,
     // LwModal,
-    LwButton,
+    // LwButton,
     // LwRadio,
     // LwInput,
-    LwPopup
+    // LwPopup
     // IRadio,
     // LwCalendar
+    LwDatepicker
   },
   data() {
     return {

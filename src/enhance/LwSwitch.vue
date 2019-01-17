@@ -16,15 +16,15 @@ export default {
   name: "LwSwitch",
   props: {
     value: {
-      value: Boolean,
+      type: Boolean,
       default: false
     },
     openValue: {
-      openValue: String,
+      type: String,
       default: "open"
     },
     closeValue: {
-      closeValue: String,
+      type: String,
       default: "close"
     }
   },

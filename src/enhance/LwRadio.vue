@@ -21,19 +21,19 @@ export default {
   },
   props: {
     name: {
-      name: String,
+      type: String,
       default: ""
     },
     checked: {
-      checked: Boolean,
+      type: Boolean,
       default: false
     },
     size: {
-      size: Number,
+      type: Number,
       default: 16
     },
     disabled: {
-      disabled: Boolean,
+      type: Boolean,
       default: false
     }
   },

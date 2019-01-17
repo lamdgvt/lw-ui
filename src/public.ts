@@ -98,4 +98,44 @@ const TransferDom = {
     }
 };
 
-export { getTextSize, getZIndex, TransferDom }
+const strToDateFormat = function (str) {
+    str = str.trim();
+    let arr = str.split(/ {1,}/i);
+    if (!arr.length) return null;
+
+    let ytd = arr[0];
+    let timer = arr.length === 2 ? arr[1] : null;
+    let date = new Date(ytd);
+
+    if (timer) {
+        let timerArr = timer.split(/[:/,\\.]/ig);
+        timerArr.length > 1 && date.setHours(timerArr[0]);
+        timerArr.length > 2 && date.setMinutes(timerArr[1]);
+        timerArr.length > 3 && date.setTime(timerArr[2]);
+    }
+
+    if (String(date) === "Invalid Date") return null;
+
+    return date;
+}
+
+const dateToStrFormat = function (timer, timepicker = false) {
+    let year = timer.getFullYear();
+    let month = timer.getMonth() + 1;
+    let day = timer.getDate();
+    month < 10 && (month = "0" + month);
+    day < 10 && (day = "0" + day);
+    let str = "" + year + '-' + month + '-' + day;
+
+    if (timepicker) {
+        let hour = timer.getHours();
+        let minute = timer.getMinutes();
+        hour < 10 && (hour = "0" + hour);
+        minute < 10 && (minute = "0" + minute);
+        str += ` ${hour}:${minute}`;
+    }
+
+    return str;
+}
+
+export { getTextSize, getZIndex, TransferDom, strToDateFormat, dateToStrFormat }

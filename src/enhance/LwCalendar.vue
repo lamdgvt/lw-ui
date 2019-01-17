@@ -4,7 +4,7 @@ export default {
   name: "LwCalendar",
   props: {
     value: {
-      value: [Number, String, Object],
+      value: [Number, String, Date],
       validator: function(value) {
         return isNaN(String(new Date(value)));
       }
@@ -34,6 +34,9 @@ export default {
   },
   computed: {},
   methods: {
+    clickEvent: function(e) {
+      this.$emit("click", event);
+    },
     timeFilter: function() {
       let date = this.value;
 
@@ -289,7 +292,7 @@ export default {
       return rows;
     },
     selectDateEvent: function(e) {
-      e.stopPropagation();
+      // e.stopPropagation();
       let target = e.target;
       if (!target) return;
       let isCol = className => {
@@ -364,7 +367,7 @@ export default {
       }
     },
     headerClickEvent: function(e) {
-      e.stopPropagation();
+      // e.stopPropagation();
       let target = e.target;
       let arrow = target.getAttribute("data-arrow");
       let title = target.getAttribute("data-title");
@@ -459,11 +462,17 @@ export default {
       );
     }
   },
+  watch: {
+    selectDate: function(val) {
+      this.$emit("change", val);
+    }
+  },
   render: function(createElement) {
-    return createElement("div", { class: "lw_calendar_box" }, [
-      this.headerLayout(createElement),
-      this.bodyLayout(createElement)
-    ]);
+    return createElement(
+      "div",
+      { class: "lw_calendar_box", on: { click: this.clickEvent } },
+      [this.headerLayout(createElement), this.bodyLayout(createElement)]
+    );
   }
 };
 </script>
