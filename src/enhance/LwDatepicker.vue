@@ -24,13 +24,12 @@ import LwInput from "./LwInput";
 import LwPopup from "./LwPopup";
 import LwCalendar from "./LwCalendar";
 import { strToDateFormat, dateToStrFormat } from "../public.ts";
+import { isString } from "lodash";
 
 export default {
   name: "LwDatepicker",
   props: {
-    value: {
-      type: [String, Date, Number]
-    },
+    value: [String, Date, Number],
     format: {
       type: Function,
       default: dateToStrFormat
@@ -44,21 +43,27 @@ export default {
   },
   data: function() {
     return {
-      calendarValue: strToDateFormat(this.value),
+      calendarValue: this.initValue(),
       inputValue: this.value,
       popup: true,
       visible: false
     };
   },
   methods: {
+    initValue: function() {
+      let date = this.value;
+      if (isString(date)) date = strToDateFormat(date);
+
+      return date;
+    },
     blurEvent: function(e) {
       let value = e.target.value;
       let timer = strToDateFormat(value);
       if (timer) this.calendarValue = timer;
     },
-    clickEvent: function(e) {},
-    changeEvent: function(val) {
-      // console.log(val);
+    clickEvent: function() {},
+    changeEvent: function() {
+      
     }
   },
   watch: {
@@ -70,6 +75,9 @@ export default {
       let str = this.format(val, this.timepicker);
       this.inputValue = str;
     },
+    inputValue(val) {
+      this.$emit("input", val);
+    }
   },
   mounted() {}
 };

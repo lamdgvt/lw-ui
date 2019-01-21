@@ -8,8 +8,8 @@
     </el-row>
     <el-row>
       <el-col :push="4" :span="5">
-        <lw-datepicker :value="'2020-03-18'"></lw-datepicker>
-
+        <lw-datepicker v-model="timer"></lw-datepicker>
+        {{ timer }}
         <!-- <lw-popup>
           <lw-button>Display dialog box</lw-button>
           <div slot="content"></div>
@@ -61,8 +61,7 @@ export default {
   data() {
     return {
       modal1: false,
-      timer: new Date(),
-      text: ""
+      timer: new Date()
     };
   },
   methods: {

@@ -34,7 +34,7 @@ export default {
   },
   computed: {},
   methods: {
-    clickEvent: function(e) {
+    clickEvent: function() {
       this.$emit("click", event);
     },
     timeFilter: function() {

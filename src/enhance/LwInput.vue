@@ -43,7 +43,7 @@ export default {
     LwIcon
   },
   props: {
-    value: [String, Number],
+    value: [String, Number, Date],
     placeholder: [String, Number],
     remove: Boolean,
     iconSize: Number,
@@ -137,7 +137,7 @@ export default {
     }
   },
   mounted: function() {
-    // console.log(this.removeState);
+    
   }
 };
 </script>
@@ -160,7 +160,7 @@ export default {
   right: 5px;
 }
 .lw_input:hover,
-.lw_input:active {
+.lw_input:focus {
   border-color: @Blue;
 }
 </style>
