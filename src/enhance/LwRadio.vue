@@ -1,14 +1,9 @@
 <template>
   <label :class="labelClassess">
-    <button
-      :style="circleStyless"
-      @click="clickEvent"
-      :class="state? 'lw_radio_checked': ''"
-      :disabled="disabled"
-    ></button>
+    <!-- <button :style="circleStyless" :class="state? 'lw_radio_checked': ''" :disabled="disabled"></button> -->
     <!-- :style="inputStyless" -->
-    <input type="radio" :disabled="disabled" :name="name" @change="change" ref="input">
-    {{ state }}
+    <input type="radio" :disabled="disabled" ref="input" v-model="state" :value="value">
+    <!-- {{ value }} -->
     <slot></slot>
   </label>
 </template>
@@ -20,10 +15,7 @@ export default {
     prop: "checked"
   },
   props: {
-    name: {
-      type: String,
-      default: ""
-    },
+    name: [String, Number],
     checked: {
       type: Boolean,
       default: false
@@ -35,11 +27,14 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    }
+    },
+    label: [String, Number],
+    value: [String, Number]
   },
   data: function() {
     return {
-      state: this.checked
+      state: this.name,
+      checkState: ""
     };
   },
   computed: {
@@ -61,8 +56,11 @@ export default {
     }
   },
   methods: {
-    clickEvent: function() {
-      this.$refs.input.click();
+    changeEvent: function(e) {
+      console.log(e);
+    },
+    clickEvent: function(e) {
+      console.log(e);
     },
     change: function(e) {
       let checked = e.target.checked;
@@ -70,9 +68,18 @@ export default {
     }
   },
   watch: {
+    // state(val) {
+    //   this.$emit("input", val);
+    // },
+    checkState: function(val) {
+      console.log(val);
+    },
     state(val) {
-      this.$emit("input", val);
+      console.log(val);
     }
+  },
+  mounted: function() {
+    console.log(this.name);
   }
 };
 </script>
@@ -81,6 +88,8 @@ export default {
 @import "../skins/color.less";
 .lw_radio_box {
   > button {
+    padding: 0;
+    box-sizing: border-box;
     border: 1px solid @Gray;
     background: @White;
     border-radius: 50%;

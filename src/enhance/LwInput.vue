@@ -46,7 +46,10 @@ export default {
     value: [String, Number, Date],
     placeholder: [String, Number],
     remove: Boolean,
-    iconSize: Number,
+    iconSize: {
+      type: Number,
+      default: 20
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -136,9 +139,7 @@ export default {
       this.currentValue = "";
     }
   },
-  mounted: function() {
-    
-  }
+  mounted: function() {}
 };
 </script>
 
@@ -158,6 +159,7 @@ export default {
 .lw_input_icon {
   position: absolute;
   right: 5px;
+  line-height: 30px;
 }
 .lw_input:hover,
 .lw_input:focus {

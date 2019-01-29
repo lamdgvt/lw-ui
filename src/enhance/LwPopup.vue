@@ -13,6 +13,9 @@
 import { directive as clickOutside } from "v-click-outside-x";
 export default {
   name: "LwPopup",
+  model: {
+    prop: "visible"
+  },
   props: {
     autoWidth: Boolean,
     visible: Boolean
@@ -21,9 +24,11 @@ export default {
   methods: {
     clickEvent: function() {
       this.show = !this.show;
+      this.$emit("input", this.show);
     },
     clickOutsideEvent: function() {
       this.show = false;
+      this.$emit("input", this.show);
     }
   },
   computed: {
@@ -49,7 +54,7 @@ export default {
   watch: {
     visible(val) {
       this.show = val;
-    },
+    }
   },
   mounted: function() {
     let slot = this.$refs.slot;
@@ -63,11 +68,12 @@ export default {
 @import "../skins/color.less";
 .lw_popup_master {
   display: inline-block;
+  position: relative;
 }
 .lw_popup_box {
+  background-color: @White;
   border: 1px solid @BorderColor;
   position: absolute;
-  padding: 5px;
   box-sizing: border-box;
   border-radius: 2px;
 }

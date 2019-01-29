@@ -2,18 +2,33 @@
   <div id="app">
     <el-row :style="{ marginTop: '60px' }">
       <el-col :push="4" :span="5">
+        <lw-select>
+          <lw-option v-for="(val,ind) in arrayTest" :key="ind">{{ val.value }}</lw-option>
+        </lw-select>
         <!-- <lw-input v-model="text" :iconSize="20" remove/>
         {{ text }}-->
       </el-col>
     </el-row>
     <el-row>
       <el-col :push="4" :span="5">
-        <lw-datepicker v-model="timer"></lw-datepicker>
-        {{ timer }}
+        <!-- <lw-datepicker v-model="timer"></lw-datepicker> -->
+        <!-- {{ timer }} -->
         <!-- <lw-popup>
           <lw-button>Display dialog box</lw-button>
           <div slot="content"></div>
         </lw-popup>-->
+      </el-col>
+      <el-col>
+        <input type="radio" value="One" v-model="picked">
+        <br>
+        <input type="radio" value="Two" v-model="picked">
+        <br>
+        <span>Picked: {{ picked }}</span>
+        <br>
+        <lw-radio :value="'One'" :name="Test"></lw-radio>
+        <lw-radio :value="'Two'" :name="Test"></lw-radio>
+        {{ Test }}
+        <!-- <lw-checkbox></lw-checkbox> -->
       </el-col>
 
       <!--
@@ -37,10 +52,13 @@ import { Row, Col } from "element-ui";
 // import LwSwitch from "./enhance/LwSwitch";
 // import LwCalendar from "./enhance/LwCalendar";
 // import LwIcon from "./enhance/LwIcon";
-// import LwRadio from "./enhance/LwRadio";
+import LwRadio from "./enhance/LwRadio";
 // import LwInput from "./enhance/LwInput";
 // import LwPopup from "./enhance/LwPopup";
-import LwDatepicker from "./enhance/LwDatepicker";
+// import LwDatepicker from "./enhance/LwDatepicker";
+import LwSelect from "./enhance/LwSelect";
+import LwOption from "./enhance/LwOption";
+// import LwCheckbox from "./enhance/LwCheckbox";
 
 export default {
   name: "app",
@@ -51,17 +69,36 @@ export default {
     // Button,
     // LwModal,
     // LwButton,
-    // LwRadio,
+    LwRadio,
     // LwInput,
     // LwPopup
     // IRadio,
-    // LwCalendar
-    LwDatepicker
+    // LwCalendar,
+    // LwDatepicker,
+    LwSelect,
+    LwOption
+    // LwCheckbox
   },
   data() {
     return {
+      Test: "",
+      picked: "One",
       modal1: false,
-      timer: new Date()
+      timer: new Date(),
+      arrayTest: [
+        {
+          value: "李锦狗"
+        },
+        {
+          value: "李锦dog"
+        },
+        {
+          value: "新锦狗"
+        },
+        {
+          value: "哈皮锦"
+        }
+      ]
     };
   },
   methods: {
